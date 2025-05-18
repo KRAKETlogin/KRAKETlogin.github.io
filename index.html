@@ -3,145 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <title>KRAKET</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      background-color: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
+      padding: 0;
+      background-color: black;
+      color: white;
+      font-family: 'Arial', sans-serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
+      overflow: hidden;
+      position: relative;
     }
-
+    .container {
+      text-align: center;
+      z-index: 2;
+    }
     h1 {
-      font-size: 2.5em;
+      font-size: 48px;
+      color: #fff;
+      letter-spacing: 5px;
       margin-bottom: 30px;
-      letter-spacing: 2px;
     }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      width: 90%;
-      max-width: 400px;
-    }
-
-    input {
-      padding: 12px;
-      margin-bottom: 15px;
+    input[type="text"], input[type="password"] {
+      padding: 10px;
+      margin: 10px;
+      width: 250px;
       border: none;
       border-radius: 5px;
-      font-size: 1em;
-      background-color: #fff;
-      color: #000;
+      background-color: white;
+      color: black;
     }
-
     button {
-      padding: 12px;
-      background-color: #1e1e1e;
-      color: #fff;
-      border: 1px solid #fff;
+      padding: 10px 20px;
+      background-color: #ff00cc;
+      border: none;
       border-radius: 5px;
-      font-size: 1em;
+      color: white;
+      font-weight: bold;
+      margin-top: 15px;
       cursor: pointer;
     }
-
-    button:hover {
-      background-color: #333;
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
 
+<canvas id="confetti-canvas"></canvas>
+
+<div class="container">
   <h1>KRAKET</h1>
-
-  <form id="registro-form">
-    <input type="text" name="usuario" id="usuario" placeholder="Usuario" required>
-    <input type="text" name="password" id="password" placeholder="Contraseña" required>
-    <button type="submit">Enviar</button>
+  <form>
+    <input type="text" placeholder="Tu nombre">
+    <input type="password" placeholder="Tu contraseña">
+    <br>
+    <button type="submit">Entrar</button>
   </form>
+</div>
 
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxHeaLDEcyUU5klJWVL7uxXHZzHt-rhjEow9G630GYhCc7Eu92bMg-sGHF_49HAmQd7Sw/exec';
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script>
+  // Disparo inicial de confetti
+  confetti({
+    particleCount: 100,
+    spread: 160,
+    origin: { y: 0.6 }
+  });
 
-    document.getElementById('registro-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-
-      fetch(scriptURL, {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        alert("Datos enviados con éxito.");
-        document.getElementById("registro-form").reset();
-      })
-      .catch(error => {
-        alert("Error al enviar los datos.");
-      });
+  // Confeti automático cada 5 segundos
+  setInterval(() => {
+    confetti({
+      particleCount: 75,
+      spread: 120,
+      origin: { y: Math.random() * 0.5 + 0.3 }
     });
-  </script>
-
-</body>
-</html>     const contrasena = document.getElementById("contrasena").value;
-
-      fetch("https://script.google.com/macros/s/AKfycbxHeaLDEcyUU5klJWVL7uxXHZzHt-rhjEow9G630GYhCc7Eu92bMg-sGHF_49HAmQd7Sw/exec", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `usuario=${encodeURIComponent(usuario)}&contrasena=${encodeURIComponent(contrasena)}`
-      })
-      .then(response => {
-        alert("Registro enviado con éxito.");
-        document.getElementById("registroForm").reset();
-      })
-      .catch(error => {
-        alert("Error al enviar el formulario.");
-        console.error(error);
-      });
-    });
-  </script>
-</body>
-</html>"Contraseña">
-    <button onclick="generarPassword('pass-lunix')">Generar contraseña segura</button>
-  </div>
-
-  <div class="view" id="crog">
-    <h1>CROG</h1>
-    <input type="text" placeholder="Usuario">
-    <input type="text" id="pass-crog" placeholder="Contraseña">
-    <button onclick="generarPassword('pass-crog')">Generar contraseña segura</button>
-  </div>
-
-  <script>
-    function generarPassword(inputId) {
-      const caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+{}[]<>?";
-      let contraseña = "";
-      for (let i = 0; i < 14; i++) {
-        const randomIndex = Math.floor(Math.random() * caracteres.length);
-        contraseña += caracteres[randomIndex];
-      }
-      document.getElementById(inputId).value = contraseña;
-    }
-
-    function toggleMenu() {
-      const menu = document.getElementById("menu");
-      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-    }
-
-    function switchView(viewId) {
-      document.querySelectorAll(".view").forEach(view => {
-        view.classList.remove("active");
-      });
-      document.getElementById(viewId).classList.add("active");
-      toggleMenu();
-    }
-  </script>
+  }, 5000);
+</script>
 
 </body>
 </html>
